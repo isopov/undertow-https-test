@@ -15,51 +15,36 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
 public class UndertowHttpsTest {
-    public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(getKeyManagers(), null, null);
+		SSLContext sslContext = SSLContext.getInstance("TLS");
+		sslContext.init(getKeyManagers(), null, null);
 
-        Undertow.builder().addHttpsListener(10443, "0.0.0.0", sslContext)
-                .setHandler(new HttpHandler() {
-                    @Override
-                    public void handleRequest(final HttpServerExchange exchange)
-                            throws Exception {
-                        exchange.getResponseHeaders().put(Headers.CONTENT_TYPE,
-                                "text/plain");
-                        exchange.getResponseSender().send("Hello World");
-                    }
-                }).build().start();
-    }
+		Undertow.builder().addHttpsListener(10443, "0.0.0.0", sslContext)
+				.setHandler(new HttpHandler() {
+					@Override
+					public void handleRequest(final HttpServerExchange exchange)
+							throws Exception {
+						exchange.getResponseHeaders().put(Headers.CONTENT_TYPE,
+								"text/plain");
+						exchange.getResponseSender().send("Hello World");
+					}
+				}).build().start();
+	}
 
-    private static KeyManager[] getKeyManagers() {
-        try {
-            KeyStore keyStore = KeyStore.getInstance("JKS");
-            keyStore.load(new FileInputStream("src/main/resources/test.jks"),
-                    "secret".toCharArray());
+	private static KeyManager[] getKeyManagers() {
+		try {
+			KeyStore keyStore = KeyStore.getInstance("JKS");
+			keyStore.load(new FileInputStream("src/main/resources/test.jks"),
+					"secret".toCharArray());
 
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory
-                    .getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(keyStore, "password".toCharArray());
-            return keyManagerFactory.getKeyManagers();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static TrustManager[] getTrustManagers() {
-        try {
-            KeyStore trustedKeyStore = KeyStore.getInstance("JKS");
-            trustedKeyStore.load(new FileInputStream("src/main/resources/test.jks"),
-                    "secret".toCharArray());
-
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory
-                    .getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            trustManagerFactory.init(trustedKeyStore);
-            return trustManagerFactory.getTrustManagers();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+			KeyManagerFactory keyManagerFactory = KeyManagerFactory
+					.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+			keyManagerFactory.init(keyStore, "password".toCharArray());
+			return keyManagerFactory.getKeyManagers();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
