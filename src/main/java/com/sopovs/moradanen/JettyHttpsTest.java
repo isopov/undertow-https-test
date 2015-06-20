@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import org.eclipse.jetty.server.ssl.SslSocketConnector;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 public class JettyHttpsTest extends AbstractHandler {
@@ -24,7 +24,7 @@ public class JettyHttpsTest extends AbstractHandler {
 		factory.setKeyManagerPassword("password");
 		factory.setProtocol("TLS");
 
-		SslSocketConnector sslConnector = new SslSocketConnector(factory);
+		ServerConnector sslConnector = new ServerConnector(server, factory);
 		sslConnector.setPort(10443);
 		server.setConnectors(new Connector[] { sslConnector });
 
