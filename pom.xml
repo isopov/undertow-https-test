@@ -13,7 +13,7 @@
 	<properties>
 		<undertow.version>1.0.16.Final</undertow.version>
 		<slf4j.version>1.7.7</slf4j.version>
-		<jetty.version>9.2.12.M0</jetty.version>
+		<jetty.version>9.3.0.v20150612</jetty.version>
 	</properties>
 
 	<dependencies>
@@ -28,6 +28,7 @@
 			<groupId>org.eclipse.jetty.aggregate</groupId>
 			<artifactId>jetty-all</artifactId>
 			<version>${jetty.version}</version>
+			<type>pom</type>
 		</dependency>
 
 		<dependency>
